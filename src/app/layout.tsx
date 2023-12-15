@@ -29,7 +29,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       <body className={`font-sans ${inter.variable}`}>
         <AuthProvider>
           <TRPCReactProvider cookies={cookies().toString()}>
-            <ThemeProvider attribute="class" defaultTheme="dark">
+            <ThemeProvider attribute="class" defaultTheme="light">
               {children}
             </ThemeProvider>
           </TRPCReactProvider>
