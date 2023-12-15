@@ -1,8 +1,8 @@
 import { type Config } from "tailwindcss";
 import TailwindAnimate from "tailwindcss-animate";
-import TailwindShadCN from "@/lib/shadcn";
+import TailwindShadCN from "./src/lib/shadcn";
 
-export default {
+const config = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -12,3 +12,5 @@ export default {
   ],
   plugins: [TailwindAnimate, TailwindShadCN],
 } satisfies Config;
+
+export default config;
