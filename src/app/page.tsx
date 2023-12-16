@@ -1,6 +1,4 @@
-import { Feature } from "@/components/home/Feature";
 import { Hero } from "@/components/home/Hero";
-import { Pricing } from "@/components/home/Pricing";
 
 export const metadata = {
   title: "Consumption",
@@ -12,8 +10,6 @@ export default async function Page() {
   return (
     <main className="h-full w-screen">
       <Hero />
-      <Feature />
-      <Pricing />
     </main>
   );
 }
