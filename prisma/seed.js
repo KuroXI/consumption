@@ -4,7 +4,7 @@ import { env } from "../src/env.js";
 
 const client = new PrismaClient();
 
-function createTransaction() {
+function createExpenses() {
   return {
     description: faker.finance.transactionDescription(),
     category: faker.finance.transactionType(),
@@ -15,10 +15,10 @@ function createTransaction() {
   };
 }
 
-const transactions = faker.helpers.multiple(createTransaction, { count: 50 });
+const expenses = faker.helpers.multiple(createExpenses, { count: 50 });
 
 async function seed() {
-  await client.transaction.createMany({ data: transactions });
+  await client.expenses.createMany({ data: expenses });
 }
 
 seed().catch((e) => {
