@@ -6,10 +6,10 @@ const client = new PrismaClient();
 
 function createExpenses() {
   return {
-    description: faker.finance.transactionDescription(),
+    description: faker.commerce.productName(),
     category: faker.finance.transactionType(),
     amount: Number(faker.finance.amount()),
-    date: faker.date.past(),
+    date: faker.date.past({ years: 2 }),
     createdAt: new Date(),
     createdById: env.TEST_ID,
   };
