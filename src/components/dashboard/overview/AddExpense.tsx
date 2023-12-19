@@ -10,7 +10,7 @@ import { CalendarIcon } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "@/hooks/use-toast";
+import { api } from "@/trpc/react";
 
 const FormSchema = z.object({
   description: z.string().max(45).min(3),
@@ -24,14 +24,10 @@ export const AddExpense = () => {
     resolver: zodResolver(FormSchema),
   });
 
+  const expenseMutation = api.expenses.add.useMutation();
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    toast({
-      title: "Expense added",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+    expenseMutation.mutate(data, {
+      onSettled: () => window.location.reload(),
     });
   };
 
@@ -45,7 +41,7 @@ export const AddExpense = () => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input placeholder="Snacks" {...field} />
+                <Input placeholder="Snacks" {...field} autoComplete="off" />
               </FormControl>
             </FormItem>
           )}
@@ -57,7 +53,7 @@ export const AddExpense = () => {
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input placeholder="10.25" {...field} type="number" />
+                <Input placeholder="10.25" {...field} type="number" autoComplete="off" />
               </FormControl>
             </FormItem>
           )}
@@ -69,7 +65,7 @@ export const AddExpense = () => {
             <FormItem>
               <FormLabel>Category</FormLabel>
               <FormControl>
-                <Input placeholder="Food" {...field} />
+                <Input placeholder="Food" {...field} autoComplete="off" />
               </FormControl>
             </FormItem>
           )}
