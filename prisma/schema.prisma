@@ -22,20 +22,6 @@ model Logs {
 	@@index([createdAt(sort: Desc)])
 }
 
-model Goals {
-	id          Int      @id @default(autoincrement())
-	name        String
-	goalDate    DateTime
-	goalValue   Int
-	createdAt   DateTime @default(now())
-	updatedAt   DateTime @updatedAt
-
-	createdBy   User     @relation(fields: [createdById], references: [id])
-	createdById String
-
-	@@index([name])
-}
-
 model Expenses {
 	id          Int         @id @default(autoincrement())
 	description String
@@ -87,7 +73,6 @@ model User {
 	accounts      Account[]
 	sessions      Session[]
 	expenses  Expenses[]
-	goals         Goals[]
 	logs          Logs[]
 }
 

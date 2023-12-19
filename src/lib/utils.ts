@@ -6,13 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatCurrency(amount: number) {
-  const formatted = new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "PHP",
     minimumFractionDigits: 2,
   }).format(amount);
-
-  return `PHP ${formatted.slice(1)}`
 }
 
 export const months = [

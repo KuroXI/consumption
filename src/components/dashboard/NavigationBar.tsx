@@ -1,62 +1,36 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { MaxWidthWrapper } from "../ui/max-width-wrapper";
-import { Skeleton } from "../ui/skeleton";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
-import { Button } from "../ui/button";
-import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
 import { UserProfile } from "./UserProfile";
-
-const links = [
-  { href: "/dashboard", label: "Overview" },
-  { href: "/dashboard/expenses", label: "Expenses" },
-  { href: "/dashboard/goals", label: "Goals" },
-  { href: "/dashboard/settings", label: "Settings" },
-];
+import { NavigationLinks } from "./NavigationLinks";
+import { AlignJustify } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Button } from "../ui/button";
 
 export const NavigationBar = () => {
-  const { data: session } = useSession();
-  const { theme, setTheme } = useTheme();
-  const pathname = usePathname();
-
   return (
-    <header className="sticky top-0 z-50 w-screen border-b">
-      <MaxWidthWrapper className="flex max-w-screen-xl items-center justify-between py-2 px-5 backdrop-blur-lg">
-        <div>
-          <h1>LOGO HERE</h1>
-        </div>
-        <nav className="flex gap-10 text-sm font-medium">
-          {links.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                "transition-colors hover:text-foreground/80",
-                pathname === href ? "text-foreground" : "text-foreground/60",
-              )}
-            >
-              {label}
-            </Link>
-          ))}
+    <header className="sticky top-0 border-b">
+      <MaxWidthWrapper className="flex max-w-screen-xl items-center justify-between px-5 py-2 backdrop-blur-lg">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button className="md:hidden" variant="ghost">
+              <AlignJustify />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-72">
+            <SheetHeader>
+              <SheetTitle>LOGO HERE</SheetTitle>
+            </SheetHeader>
+            <nav className="mt-16 flex flex-col gap-10 text-center text-sm font-medium">
+              <NavigationLinks />
+            </nav>
+          </SheetContent>
+        </Sheet>
+        <h1 className="hidden md:flex">LOGO HERE</h1>
+        <nav className="hidden gap-10 text-sm font-medium md:flex">
+          <NavigationLinks />
         </nav>
-        <div className="flex gap-3">
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          >
-            {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </Button>
-          {session ? (
-            <UserProfile session={session} />
-          ) : (
-            <Skeleton className="h-8 w-8 rounded-full" />
-          )}
-        </div>
+        <UserProfile />
       </MaxWidthWrapper>
     </header>
   );
