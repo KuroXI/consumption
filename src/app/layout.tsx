@@ -7,7 +7,6 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { type ReactNode } from "react";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { Toaster } from "@/components/ui/toaster";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -32,7 +31,6 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           <TRPCReactProvider cookies={cookies().toString()}>
             <ThemeProvider attribute="class" defaultTheme="light">
               {children}
-              <Toaster />
             </ThemeProvider>
           </TRPCReactProvider>
         </AuthProvider>

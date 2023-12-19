@@ -45,4 +45,22 @@ export const expensesRouter = createTRPCRouter({
 
     return result;
   }),
+
+  add: protectedProcedure
+    .input(
+      z.object({
+        amount: z.number(),
+        category: z.string(),
+        date: z.date(),
+        description: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.expenses.create({
+        data: {
+          ...input,
+          createdBy: { connect: { id: ctx.session.user.id } },
+        },
+      });
+    }),
 });
