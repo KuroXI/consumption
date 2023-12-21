@@ -1,16 +1,14 @@
 "use client";
 
 import { Line } from "react-chartjs-2";
-import { CategoryScale, Chart, LineElement, LinearScale, PointElement } from "chart.js";
+import { CategoryScale, Chart, LineElement, LinearScale, PointElement, Tooltip } from "chart.js";
 import { useTheme } from "next-themes";
 import { months } from "@/lib/utils";
 
-Chart.register(CategoryScale, LinearScale, LineElement, PointElement);
+Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip);
 
 const color = {
   primary: "hsl(263.4 70% 50.4%)",
-  darkSecondary: "hsl(215 27.9% 16.9%)",
-  whiteSecondary: "hsl(220 14.3% 95.9%)",
   darkForeground: "hsl(210 20% 98%)",
   whiteForeground: "hsl(224 71.4% 4.1%)",
 };
@@ -33,8 +31,11 @@ export const YearlyChart = ({ data }: Readonly<YearlyChartProps>) => {
           {
             data: data.map((o) => o.amount),
             borderColor: color.primary,
+            backgroundColor: color.primary,
+            fill: true,
             tension: 0.35,
-            pointRadius: 0,
+            pointRadius: 4,
+            pointBackgroundColor: color.darkForeground,
           },
         ],
       }}
@@ -43,7 +44,7 @@ export const YearlyChart = ({ data }: Readonly<YearlyChartProps>) => {
         scales: {
           x: {
             grid: {
-              color: theme === "dark" ? color.darkSecondary : color.whiteSecondary,
+              display: false,
             },
             ticks: {
               color: theme === "dark" ? color.darkForeground : color.whiteForeground,
@@ -51,10 +52,25 @@ export const YearlyChart = ({ data }: Readonly<YearlyChartProps>) => {
           },
           y: {
             grid: {
-              color: theme === "dark" ? color.darkSecondary : color.whiteSecondary,
+              display: false,
             },
             ticks: {
               color: theme === "dark" ? color.darkForeground : color.whiteForeground,
+            },
+          },
+        },
+
+        plugins: {
+          subtitle: {
+            display: true
+          },
+          tooltip: {
+            enabled: true,
+            displayColors: false,
+            callbacks: {
+              label: (context) => {
+                return `${(context.parsed.y ?? 0).toFixed(2)}`;
+              },
             },
           },
         },

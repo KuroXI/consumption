@@ -12,7 +12,7 @@ import {
 } from "../ui/dropdown-menu";
 import { useTheme } from "next-themes";
 import { Switch } from "../ui/switch";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Skeleton } from "../ui/skeleton";
 
 export const UserProfile = () => {
@@ -50,7 +50,16 @@ export const UserProfile = () => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            signOut({
+              callbackUrl: "/",
+              redirect: true,
+            })
+          }
+        >
+          Log out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   ) : (

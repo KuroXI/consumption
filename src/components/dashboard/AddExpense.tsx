@@ -19,7 +19,11 @@ const FormSchema = z.object({
   date: z.date(),
 });
 
-export const AddExpense = () => {
+type AddExpenseProps = {
+  className?: string;
+}
+
+export const AddExpense = ({ className } : AddExpenseProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -33,7 +37,7 @@ export const AddExpense = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className, "space-y-5")}>
         <FormField
           control={form.control}
           name="description"
@@ -75,7 +79,7 @@ export const AddExpense = () => {
           name="date"
           render={({ field }) => (
             <FormItem className="flex flex-col gap-1">
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button

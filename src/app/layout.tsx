@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 import { TRPCReactProvider } from "@/trpc/react";
 import { type ReactNode } from "react";
 import { AuthProvider } from "@/components/auth/AuthProvider";
-import { ThemeProvider } from "@/components/ui/theme-provider";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -28,11 +27,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${montserrat.variable}`}>
         <AuthProvider>
-          <TRPCReactProvider cookies={cookies().toString()}>
-            <ThemeProvider attribute="class" defaultTheme="light">
-              {children}
-            </ThemeProvider>
-          </TRPCReactProvider>
+          <TRPCReactProvider cookies={cookies().toString()}>{children}</TRPCReactProvider>
         </AuthProvider>
       </body>
     </html>

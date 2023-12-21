@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 
 export const NavigationBar = () => {
   return (
-    <header className="sticky top-0 border-b">
+    <header className="sticky top-0 border-b z-50">
       <MaxWidthWrapper className="flex max-w-screen-xl items-center justify-between px-5 py-2 backdrop-blur-lg">
         <Sheet>
           <SheetTrigger asChild>

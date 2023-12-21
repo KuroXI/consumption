@@ -3,21 +3,21 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 
 import { type AppRouter } from "@/server/api/root";
 import { getUrl, transformer } from "./shared";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 export const api = createTRPCReact<AppRouter>();
 
 type TRPCReactProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   cookies: string;
 };
 
 export function TRPCReactProvider(props: Readonly<TRPCReactProviderProps>) {
   const [queryClient] = useState(() => new QueryClient());
-
   const [trpcClient] = useState(() =>
     api.createClient({
       transformer,
@@ -37,13 +37,15 @@ export function TRPCReactProvider(props: Readonly<TRPCReactProviderProps>) {
           },
         }),
       ],
-    })
+    }),
   );
 
   return (
     <QueryClientProvider client={queryClient}>
       <api.Provider client={trpcClient} queryClient={queryClient}>
-        {props.children}
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          {props.children}
+        </ThemeProvider>
       </api.Provider>
     </QueryClientProvider>
   );
