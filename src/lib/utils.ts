@@ -27,3 +27,9 @@ export const months = [
   "Nov",
   "Dec",
 ];
+
+export function renderBreakPoint(id: string): string {
+  if (id === "date" || id === "category") {
+    return "hidden lg:table-cell";
+  } else return "";
+}

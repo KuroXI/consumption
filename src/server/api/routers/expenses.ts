@@ -10,7 +10,15 @@ export const expensesRouter = createTRPCRouter({
 
     expenses.sort((a, b) => b.date.getTime() - a.date.getTime());
 
-    return expenses;
+    return expenses.map((expense) => {
+      return {
+        id: expense.id,
+        amount: expense.amount,
+        category: expense.category,
+        date: expense.date,
+        description: expense.description,
+      }
+    });
   }),
 
   yearly: protectedProcedure.input(z.object({ year: z.number() })).query(async ({ ctx, input }) => {

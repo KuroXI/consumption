@@ -3,7 +3,7 @@ import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
 import { api } from "@/trpc/server";
 import { YearlyChart } from "@/components/dashboard/overview/YearlyChart";
 import { ExpenseHistory } from "@/components/dashboard/overview/ExpenseHistory";
-import { AddExpense } from "@/components/dashboard/overview/AddExpense";
+import { AddExpense } from "@/components/dashboard/AddExpense";
 
 export default async function Page() {
   const expenses = await api.expenses.all.query();
