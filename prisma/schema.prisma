@@ -21,6 +21,7 @@ model Logs {
 model Transaction {
   id          Int             @id @default(autoincrement())
   amount      Float
+  type        TransactionType
   createdAt   DateTime        @default(now())
 
   createdById String
@@ -92,6 +93,11 @@ model VerificationToken {
 enum UserRole {
   USER
   ADMIN
+}
+
+enum TransactionType {
+  ADD
+  REMOVE
 }
 
 enum LogAction {
