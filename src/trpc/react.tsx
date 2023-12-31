@@ -3,7 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useMemo } from "react";
 
 import { type AppRouter } from "@/server/api/root";
 import { getUrl, transformer } from "./shared";
@@ -18,15 +18,15 @@ type TRPCReactProviderProps = {
 };
 
 export function TRPCReactProvider(props: Readonly<TRPCReactProviderProps>) {
-  const [queryClient] = useState(() => new QueryClient({
+  const queryClient = useMemo(() => () => new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
       },
     }
-  }));
-  const [trpcClient] = useState(() =>
+  }), []);
+  const trpcClient = useMemo(() => () =>
     api.createClient({
       transformer,
       links: [
@@ -45,12 +45,11 @@ export function TRPCReactProvider(props: Readonly<TRPCReactProviderProps>) {
           },
         }),
       ],
-    }),
-  );
+    }), []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <api.Provider client={trpcClient} queryClient={queryClient}>
+    <QueryClientProvider client={queryClient()}>
+      <api.Provider client={trpcClient()} queryClient={queryClient()}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           {props.children}
           <Toaster />

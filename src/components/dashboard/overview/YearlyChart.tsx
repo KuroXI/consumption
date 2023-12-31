@@ -28,11 +28,6 @@ export const YearlyChart = () => {
       >
         <XAxis dataKey="name" fontSize={13} />
         <YAxis fontSize={13} />
-        <Tooltip
-          content={({ active, payload }) =>
-            active && payload?.length ? <TooltipContent {...payload} /> : null
-          }
-        />
         <Line
           type="monotone"
           dataKey="lastYear"
@@ -56,24 +51,33 @@ export const YearlyChart = () => {
           }}
           stroke={color.primary}
         />
+        <Tooltip content={<TooltipContent active={true} payload={chartData.data} />} />
       </LineChart>
     </ResponsiveContainer>
   ) : null;
 };
 
-const TooltipContent = (payload: Payload<ValueType, NameType>[]) => (
-  <div className="rounded-lg border bg-background p-2 shadow-sm">
-    <div className="grid grid-cols-2 gap-2">
-      <div className="flex flex-col">
-        <span className="text-xs uppercase text-muted-foreground">Last Year</span>
-        <span className="font-bold text-muted-foreground">
-          {(payload[0]?.value as number).toFixed(2)}
-        </span>
-      </div>
-      <div className="flex flex-col">
-        <span className="text-xs uppercase text-muted-foreground">Current Year</span>
-        <span className="font-bold">{(payload[1]?.value as number).toFixed(2)}</span>
+const TooltipContent = ({
+  active,
+  payload,
+}: {
+  active: boolean | undefined;
+  payload: Payload<ValueType, NameType>[] | undefined;
+}) => {
+  return active && payload?.length ? (
+    <div className="rounded-lg border bg-background p-2 shadow-sm">
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex flex-col">
+          <span className="text-xs uppercase text-muted-foreground">Last Year</span>
+          <span className="font-bold text-muted-foreground">
+            {(payload[0]?.value as number).toFixed(2)}
+          </span>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-xs uppercase text-muted-foreground">Current Year</span>
+          <span className="font-bold">{(payload[1]?.value as number).toFixed(2)}</span>
+        </div>
       </div>
     </div>
-  </div>
-);
+  ) : null;
+};
