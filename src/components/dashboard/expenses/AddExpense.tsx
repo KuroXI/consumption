@@ -5,25 +5,35 @@ import { Calendar } from "@/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
+import { CalendarIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { budgetCategory } from "@/lib/constant";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const FormSchema = z.object({
   description: z.string().max(45).min(3),
   amount: z.coerce.number().min(0.01),
-  category: z.string().max(45).min(3),
+  category: z.string(),
   date: z.date(),
 });
 
 type AddExpenseProps = {
   className?: string;
-}
+};
 
-export const AddExpense = ({ className } : AddExpenseProps) => {
+export const AddExpense = ({ className }: AddExpenseProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -31,6 +41,8 @@ export const AddExpense = ({ className } : AddExpenseProps) => {
   const expenseMutation = api.expenses.add.useMutation();
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     expenseMutation.mutate(data, {
+      onSuccess: () => toast.success("Added expense successfully"),
+      onError: (error) => toast.error(error.message),
       onSettled: () => window.location.reload(),
     });
   };
@@ -45,7 +57,7 @@ export const AddExpense = ({ className } : AddExpenseProps) => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input placeholder="Snacks" {...field} autoComplete="off" />
+                <Input {...field} placeholder="Snacks" autoComplete="off" />
               </FormControl>
             </FormItem>
           )}
@@ -57,7 +69,7 @@ export const AddExpense = ({ className } : AddExpenseProps) => {
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input placeholder="10.25" {...field} type="number" autoComplete="off" />
+                <Input {...field} placeholder="10.25" autoComplete="off" />
               </FormControl>
             </FormItem>
           )}
@@ -68,9 +80,20 @@ export const AddExpense = ({ className } : AddExpenseProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
-              <FormControl>
-                <Input placeholder="Food" {...field} autoComplete="off" />
-              </FormControl>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder={"Select a category"} />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    {budgetCategory.map((category) => (
+                      <SelectItem key={category} value={category}>{category}</SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
