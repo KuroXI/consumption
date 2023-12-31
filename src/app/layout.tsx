@@ -1,13 +1,13 @@
 import "@/styles/globals.css";
 
-import { Montserrat } from "next/font/google";
+import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { type ReactNode } from "react";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 
-const montserrat = Montserrat({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
@@ -25,7 +25,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans ${montserrat.variable}`}>
+      <body className={`font-sans ${inter.variable} scroll-smooth`}>
         <AuthProvider>
           <TRPCReactProvider cookies={cookies().toString()}>{children}</TRPCReactProvider>
         </AuthProvider>

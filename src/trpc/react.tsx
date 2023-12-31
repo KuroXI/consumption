@@ -8,6 +8,7 @@ import { type ReactNode, useState } from "react";
 import { type AppRouter } from "@/server/api/root";
 import { getUrl, transformer } from "./shared";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const api = createTRPCReact<AppRouter>();
 
@@ -17,7 +18,14 @@ type TRPCReactProviderProps = {
 };
 
 export function TRPCReactProvider(props: Readonly<TRPCReactProviderProps>) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 60 * 5,
+        refetchOnWindowFocus: false,
+      },
+    }
+  }));
   const [trpcClient] = useState(() =>
     api.createClient({
       transformer,
@@ -45,6 +53,7 @@ export function TRPCReactProvider(props: Readonly<TRPCReactProviderProps>) {
       <api.Provider client={trpcClient} queryClient={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           {props.children}
+          <Toaster />
         </ThemeProvider>
       </api.Provider>
     </QueryClientProvider>

@@ -11,18 +11,11 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { api } from "@/trpc/server";
 
-type ExpenseHistoryProps = {
-  expenses: {
-    id: number;
-    description: string;
-    category: string;
-    date: Date;
-    amount: number;
-  }[];
-};
+export const ExpenseHistory = async () => {
+  const expenses = await api.expenses.all.query();
 
-export const ExpenseHistory = ({ expenses }: Readonly<ExpenseHistoryProps>) => {
   return expenses.length ? (
     <Table>
       <TableCaption className="text-primary hover:underline">
@@ -53,7 +46,7 @@ export const ExpenseHistory = ({ expenses }: Readonly<ExpenseHistoryProps>) => {
     </Table>
   ) : (
     <div className="flex flex-col gap-5">
-      <p className="text-center text-muted-foreground text-sm">No expenses yet.</p>
+      <p className="text-center text-sm text-muted-foreground">No expenses yet.</p>
       <div className="flex justify-center">
         <Button>Add Expense</Button>
       </div>

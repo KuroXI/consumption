@@ -13,23 +13,8 @@ export function formatCurrency(amount: number) {
   }).format(amount);
 }
 
-export const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "June",
-  "July",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
 export function renderBreakPoint(id: string): string {
   if (id === "date" || id === "category") {
-    return "hidden lg:table-cell";
+    return "hidden md:table-cell";
   } else return "";
 }
