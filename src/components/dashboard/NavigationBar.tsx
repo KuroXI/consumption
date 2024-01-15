@@ -19,14 +19,14 @@ export const NavigationBar = () => {
           </SheetTrigger>
           <SheetContent side="left" className="w-72">
             <SheetHeader>
-              <SheetTitle>LOGO HERE</SheetTitle>
+              <SheetTitle>CONSUMPTION</SheetTitle>
             </SheetHeader>
             <nav className="mt-16 flex flex-col gap-10 text-center text-sm font-medium">
               <NavigationLinks />
             </nav>
           </SheetContent>
         </Sheet>
-        <h1 className="hidden md:flex">LOGO HERE</h1>
+        <h1 className="hidden md:flex">CONSUMPTION</h1>
         <nav className="hidden gap-10 text-sm font-medium md:flex">
           <NavigationLinks />
         </nav>

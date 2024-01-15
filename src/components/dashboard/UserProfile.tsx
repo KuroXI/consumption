@@ -36,8 +36,6 @@ export const UserProfile = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem
             className="flex items-center justify-between"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
