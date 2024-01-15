@@ -7,19 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Logs {
-  id          Int      @id @default(autoincrement())
-  log         String
-  createdAt   DateTime @default(now())
-  createdById String
-  action      LogAction
-  createdBy   User     @relation(fields: [createdById], references: [id])
-
-  @@index([createdAt(sort: Desc)])
-}
-
 model Transaction {
   id          Int             @id @default(autoincrement())
+  name        String
   amount      Float
   type        TransactionType
   createdAt   DateTime        @default(now())
@@ -77,7 +67,6 @@ model User {
   role          UserRole      @default(USER)
   accounts      Account[]
   expenses      Expenses[]
-  logs          Logs[]
   sessions      Session[]
   transactions  Transaction[]
 }
@@ -98,10 +87,4 @@ enum UserRole {
 enum TransactionType {
   ADD
   REMOVE
-}
-
-enum LogAction {
-  CREATE
-  UPDATE
-  DELETE
 }

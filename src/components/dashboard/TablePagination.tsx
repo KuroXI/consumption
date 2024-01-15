@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { type Expense } from "@/interface/ExpenseColumnDef";
+import { type Transaction } from "@/interface/TransactionColumnDef";
 import { type Table } from "@tanstack/react-table";
 
-type ExpensePaginationProps = {
-  table: Table<Expense>;
+type TablePaginationProps = {
+  table: Table<Transaction> | Table<Expense>;
 };
 
-export const ExpensePagination = ({ table }: ExpensePaginationProps) => {
+export const TablePagination = ({ table }: TablePaginationProps) => {
   return table.getPageCount() ? (
     <div className="flex items-center justify-between space-x-2">
       <p className="text-sm text-muted-foreground">

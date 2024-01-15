@@ -2,7 +2,7 @@ import { NavigationBar } from "@/components/dashboard/NavigationBar";
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
 import { YearlyChart } from "@/components/dashboard/overview/YearlyChart";
 import { ExpenseHistory } from "@/components/dashboard/overview/ExpenseHistory";
-import { AddExpense } from "@/components/dashboard/expenses/AddExpense";
+import { ExpenseForm } from "@/components/dashboard/expenses/ExpenseForm";
 import { InfoCard } from "@/components/dashboard/overview/InfoCard";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
@@ -26,7 +26,7 @@ export default async function Page() {
           </div>
           <div className="col-span-1 rounded-md border p-3">
             <h1 className="text-md py-2 font-semibold">Add Expense</h1>
-            <AddExpense />
+            <ExpenseForm />
           </div>
           <div className="col-span-1 lg:col-span-3">
             <h1 className="text-md py-2 font-semibold">Expenses History</h1>

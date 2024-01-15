@@ -29,11 +29,11 @@ const FormSchema = z.object({
   date: z.date(),
 });
 
-type AddExpenseProps = {
+type ExpenseFormProps = {
   className?: string;
 };
 
-export const AddExpense = ({ className }: AddExpenseProps) => {
+export const ExpenseForm = ({ className }: ExpenseFormProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });

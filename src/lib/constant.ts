@@ -15,12 +15,14 @@ export const months = [
 
 export const budgetCategory = [
   "Education",
-	"Entertainment",
+  "Entertainment",
   "Food",
-	"Healthcare",
+  "Healthcare",
   "Insurance",
   "Miscellaneous",
-	"Savings",
+  "Savings",
   "Transportation",
   "Utilities",
 ];
+
+export const transactionType = ["ADD", "REMOVE"];
