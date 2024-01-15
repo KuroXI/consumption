@@ -1,3 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+import NoExpensesImage from "@/assets/no-expenses.png";
 import {
   Table,
   TableBody,
@@ -7,10 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/server";
 
 export const ExpenseHistory = async () => {
@@ -46,10 +47,18 @@ export const ExpenseHistory = async () => {
     </Table>
   ) : (
     <div className="flex flex-col gap-5">
-      <p className="text-center text-sm text-muted-foreground">No expenses yet.</p>
-      <div className="flex justify-center">
-        <Button>Add Expense</Button>
-      </div>
+      <h1 className="text-md text-center font-medium text-muted-foreground mt-10">
+        You don't have any expense records
+      </h1>
+      <Image
+        draggable={false}
+        src={NoExpensesImage}
+        alt="NoData"
+        width={550}
+        height={550}
+        quality={100}
+        className="mx-auto"
+      />
     </div>
   );
 };
