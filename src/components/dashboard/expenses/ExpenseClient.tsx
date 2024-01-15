@@ -13,8 +13,8 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import { ExpenseFilter } from "./ExpenseFilter";
-import { ExpenseTable } from "./ExpenseTable";
-import { ExpensePagination } from "./ExpensePagination";
+import { TableData } from "../TableData";
+import { TablePagination } from "../TablePagination";
 
 type ExpensesTableProps = {
   className?: string;
@@ -43,8 +43,8 @@ export const ExpenseClient = ({ className, expenses }: ExpensesTableProps) => {
   return (
     <div className={cn(className, "flex flex-col gap-2")}>
       <ExpenseFilter table={table} />
-      <ExpenseTable table={table} />
-      <ExpensePagination table={table} />
+      <TableData table={table} type="EXPENSES" />
+      <TablePagination table={table} />
     </div>
   );
 };

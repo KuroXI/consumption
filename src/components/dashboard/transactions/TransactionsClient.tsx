@@ -11,10 +11,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { TransactionsTable } from "./TransactionsTable";
-import { TransactionsPagination } from "./TransactionsPagination";
 import { TransactionsFilter } from "./TransactionsFilter";
 import { TransactionForm } from "./TransactionsForm";
+import { TableData } from "../TableData";
+import { TablePagination } from "../TablePagination";
 
 type TransactionsClientProps = {
   transactions: Transaction[];
@@ -54,8 +54,8 @@ export const TransactionsClient = ({ transactions }: Readonly<TransactionsClient
         </div>
       </div>
       <div className="col-span-1 flex flex-col gap-2 lg:col-span-5">
-        <TransactionsTable table={table} />
-        <TransactionsPagination table={table} />
+        <TableData table={table} type="TRANSACTION" />
+        <TablePagination table={table} />
       </div>
     </div>
   );

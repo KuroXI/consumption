@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,6 +10,8 @@ import { api } from "@/trpc/react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowDownUp, MoreVertical } from "lucide-react";
 import { toast } from "sonner";
+import { CategoryCell } from "@/components/table/CategoryCell";
+import { CategoryHeader } from "@/components/table/CategoryHeader";
 
 export type Expense = {
   id: number;
@@ -33,22 +34,8 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
   },
   {
     accessorKey: "category",
-    header: ({ column }) => (
-      <div className="flex justify-end">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Category
-          <ArrowDownUp className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <Badge className="capitalize">{row.getValue("category")}</Badge>
-      </div>
-    ),
+    header: ({ column }) => <CategoryHeader title="Category" column={column} />,
+    cell: ({ row }) => <CategoryCell row={row} />,
   },
   {
     accessorKey: "date",

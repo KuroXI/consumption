@@ -1,8 +1,9 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowDownUp } from "lucide-react";
+import { CategoryCell } from "@/components/table/CategoryCell";
+import { CategoryHeader } from "@/components/table/CategoryHeader";
 
 export type Transaction = {
   id: number;
@@ -42,22 +43,8 @@ export const TransactionColumnDef: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "type",
-    header: ({ column }) => (
-      <div className="flex justify-end">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Type
-          <ArrowDownUp className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex justify-end">
-        <Badge className="capitalize">{row.getValue("type")}</Badge>
-      </div>
-    ),
+    header: ({ column }) => <CategoryHeader title="Type" column={column} />,
+    cell: ({ row }) => <CategoryCell row={row} />,
   },
   {
     accessorKey: "amount",
