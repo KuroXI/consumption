@@ -110,7 +110,10 @@ export const expensesRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.expenses.create({
         data: {
-          ...input,
+          description: input.description,
+          amount: input.amount,
+          category: input.category,
+          date: moment(input.date).utc().toDate(),
           createdById: ctx.session.user.id,
         },
       });
