@@ -41,7 +41,7 @@ export const TransactionColumnDef: ColumnDef<Transaction>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <p className="text-center">{new Date(row.getValue("createdAt")).toLocaleDateString()}</p>
+      <p className="text-center">{row.original.createdAt.toLocaleDateString()}</p>
     ),
   },
 ];

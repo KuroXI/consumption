@@ -57,7 +57,7 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <p className="text-right">{new Date(row.getValue("date")).toLocaleDateString()}</p>
+      <p className="text-right">{row.original.date.toLocaleDateString()}</p>
     ),
   },
   {
