@@ -18,7 +18,3 @@ export function renderBreakPoint(id: string): string {
     return "hidden md:table-cell";
   } else return "";
 }
-
-export function getDateWithTimezone(date: Date, timezone: string): Date {
-  return new Date(date.toLocaleString("en-US", { timeZone: timezone }));
-}
