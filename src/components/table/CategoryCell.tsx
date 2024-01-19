@@ -15,7 +15,7 @@ type CategoryCellProps = {
 
 export const CategoryCell = ({ row }: CategoryCellProps) => {
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-center">
       <Badge className="capitalize">{row.getValue("category") ?? row.getValue("type")}</Badge>
     </div>
   );

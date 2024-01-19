@@ -17,7 +17,7 @@ export default async function Page() {
     <>
       <NavigationBar />
       <MaxWidthWrapper className="min-h-screen py-5">
-        <h1 className="px-5 pb-3 text-lg font-semibold">Expenses</h1>
+        <h1 className="px-5 pb-3 text-lg font-semibold">Transactions</h1>
         <TransactionsClient transactions={transaction} />
       </MaxWidthWrapper>
       <Footer />

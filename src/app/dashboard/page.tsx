@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import { redirect } from "next/navigation";
 import { Footer } from "@/components/dashboard/Footer";
+import { TransactionForm } from "@/components/dashboard/transactions/TransactionsForm";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -28,7 +29,11 @@ export default async function Page() {
             <h1 className="text-md py-2 font-semibold">Add Expense</h1>
             <ExpenseForm />
           </div>
-          <div className="col-span-1 lg:col-span-3">
+          <div className="col-span-1">
+            <h1 className="text-md py-2 font-semibold">Add Transaction</h1>
+            <TransactionForm />
+          </div>
+          <div className="col-span-1 lg:col-span-2">
             <h1 className="text-md py-2 font-semibold">Expenses History</h1>
             <ExpenseHistory />
           </div>

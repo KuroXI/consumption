@@ -12,6 +12,7 @@ import { ArrowDownUp, MoreVertical } from "lucide-react";
 import { toast } from "sonner";
 import { CategoryCell } from "@/components/table/CategoryCell";
 import { CategoryHeader } from "@/components/table/CategoryHeader";
+import { AmountHeader } from "@/components/table/AmountHeader";
 
 export type Expense = {
   id: number;
@@ -31,6 +32,11 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
       </Button>
     ),
     cell: ({ row }) => <p className="max-w-prose">{row.getValue("description")}</p>,
+  },
+  {
+    accessorKey: "amount",
+    header: ({ column }) => <AmountHeader column={column} />,
+    cell: ({ row }) => <p className="text-center">{formatCurrency(row.getValue("amount"))}</p>,
   },
   {
     accessorKey: "category",
@@ -53,21 +59,6 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
     cell: ({ row }) => (
       <p className="text-right">{new Date(row.getValue("date")).toLocaleDateString()}</p>
     ),
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => (
-      <div className="flex justify-end">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowDownUp className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
-    cell: ({ row }) => <p className="text-right">{formatCurrency(row.getValue("amount"))}</p>,
   },
   {
     id: "actions",

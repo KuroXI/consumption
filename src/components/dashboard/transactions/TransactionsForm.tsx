@@ -9,20 +9,10 @@ import { api } from "@/trpc/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { transactionType } from "@/lib/constant";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const FormSchema = z.object({
   name: z.string().max(45).min(3),
   amount: z.coerce.number().min(0.01),
-  type: z.string(),
 });
 
 type TransactionFormProps = {
@@ -67,29 +57,6 @@ export const TransactionForm = ({ className }: TransactionFormProps) => {
               <FormControl>
                 <Input {...field} placeholder="35000" autoComplete="off" />
               </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder={"Type of Transaction"} />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectGroup>
-										{transactionType.map((type) => (
-											<SelectItem key={type} value={type}>{type}</SelectItem>
-										))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
             </FormItem>
           )}
         />

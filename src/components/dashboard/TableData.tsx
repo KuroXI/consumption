@@ -2,7 +2,6 @@ import NoTransactionImage from "@/assets/no-transaction.png";
 import NoExpensesImage from "@/assets/no-expenses.png";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { flexRender, type Table as TableType } from "@tanstack/react-table";
-import { cn, renderBreakPoint } from "@/lib/utils";
 import { NoData } from "./NoData";
 import { type Transaction, TransactionColumnDef } from "@/interface/TransactionColumnDef";
 import { type Expense, ExpenseColumnDef } from "@/interface/ExpenseColumnDef";
@@ -34,7 +33,7 @@ export const TableData = ({ table, type }: TableDataProps) => {
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <TableHead key={header.id} className={cn(renderBreakPoint(header.id))}>
+              <TableHead key={header.id}>
                 {header.isPlaceholder
                   ? null
                   : flexRender(header.column.columnDef.header as string, header.getContext())}
@@ -48,7 +47,7 @@ export const TableData = ({ table, type }: TableDataProps) => {
           table.getRowModel().rows.map((row) => (
             <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} className={cn(renderBreakPoint(cell.id.split("_")![1]!))}>
+                <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell as string, cell.getContext())}
                 </TableCell>
               ))}

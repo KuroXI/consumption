@@ -15,10 +15,21 @@ function createExpenses() {
   };
 }
 
+function createTransaction() {
+  return {
+    name: faker.company.name(),
+    amount: Number(faker.finance.amount()),
+    createdAt: new Date(),
+    createdById: env.TEST_ID,
+  };
+}
+
 const expenses = faker.helpers.multiple(createExpenses, { count: 50 });
+const transactions = faker.helpers.multiple(createTransaction, { count: 20 });
 
 async function seed() {
   await client.expenses.createMany({ data: expenses });
+  await client.transaction.createMany({ data: transactions });
 }
 
 seed().catch((e) => {

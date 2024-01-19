@@ -1,15 +1,13 @@
+import { AmountHeader } from "@/components/table/AmountHeader";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowDownUp } from "lucide-react";
-import { CategoryCell } from "@/components/table/CategoryCell";
-import { CategoryHeader } from "@/components/table/CategoryHeader";
 
 export type Transaction = {
   id: number;
   name: string;
   amount: number;
-  type: "ADD" | "REMOVE";
   createdAt: Date;
 };
 
@@ -23,6 +21,11 @@ export const TransactionColumnDef: ColumnDef<Transaction>[] = [
       </Button>
     ),
     cell: ({ row }) => <p>{row.getValue("name")}</p>,
+  },
+  {
+    accessorKey: "amount",
+    header: ({ column }) => <AmountHeader column={column} />,
+    cell: ({ row }) => <p className="text-center">{formatCurrency(row.getValue("amount"))}</p>,
   },
   {
     accessorKey: "createdAt",
@@ -40,25 +43,5 @@ export const TransactionColumnDef: ColumnDef<Transaction>[] = [
     cell: ({ row }) => (
       <p className="text-center">{new Date(row.getValue("createdAt")).toLocaleDateString()}</p>
     ),
-  },
-  {
-    accessorKey: "type",
-    header: ({ column }) => <CategoryHeader title="Type" column={column} />,
-    cell: ({ row }) => <CategoryCell row={row} />,
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => (
-      <div className="flex justify-end">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowDownUp className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
-    cell: ({ row }) => <p className="text-right">{formatCurrency(row.getValue("amount"))}</p>,
   },
 ];
