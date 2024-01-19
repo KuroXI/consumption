@@ -29,7 +29,7 @@ export default async function Page() {
             <h1 className="text-md py-2 font-semibold">Add Expense</h1>
             <ExpenseForm />
           </div>
-          <div className="col-span-1 rounded-md border p-3">
+          <div className="col-span-1">
             <h1 className="text-md py-2 font-semibold">Add Transaction</h1>
             <TransactionForm />
           </div>

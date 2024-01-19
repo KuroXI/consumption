@@ -12,6 +12,7 @@ import { ArrowDownUp, MoreVertical } from "lucide-react";
 import { toast } from "sonner";
 import { CategoryCell } from "@/components/table/CategoryCell";
 import { CategoryHeader } from "@/components/table/CategoryHeader";
+import { AmountHeader } from "@/components/table/AmountHeader";
 
 export type Expense = {
   id: number;
@@ -34,17 +35,7 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
   },
   {
     accessorKey: "amount",
-    header: ({ column }) => (
-      <div className="flex justify-center">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowDownUp className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
+    header: ({ column }) => <AmountHeader column={column} />,
     cell: ({ row }) => <p className="text-center">{formatCurrency(row.getValue("amount"))}</p>,
   },
   {

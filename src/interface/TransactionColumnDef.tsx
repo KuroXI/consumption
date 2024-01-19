@@ -1,3 +1,4 @@
+import { AmountHeader } from "@/components/table/AmountHeader";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { type ColumnDef } from "@tanstack/react-table";
@@ -23,17 +24,7 @@ export const TransactionColumnDef: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "amount",
-    header: ({ column }) => (
-      <div className="flex justify-center">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowDownUp className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
+    header: ({ column }) => <AmountHeader column={column} />,
     cell: ({ row }) => <p className="text-center">{formatCurrency(row.getValue("amount"))}</p>,
   },
   {
