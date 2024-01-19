@@ -1,4 +1,5 @@
 import { months } from "@/lib/constant";
+import { getDateWithTimezone } from "@/lib/utils";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 
@@ -18,12 +19,17 @@ export const expensesRouter = createTRPCRouter({
   }),
 
   daily: protectedProcedure.query(async ({ ctx }) => {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const startDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+    const endDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1);
+
     const expenses = await ctx.db.expenses.findMany({
       where: {
         createdBy: { id: ctx.session.user.id },
         date: {
-          gte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
-          lte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1),
+          gte: getDateWithTimezone(startDate, timezone),
+          lte: getDateWithTimezone(endDate, timezone),
         },
       },
     });
