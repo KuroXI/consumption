@@ -9,6 +9,12 @@ import { Separator } from "@/components/ui/separator";
 import { Footer } from "@/components/dashboard/Footer";
 import { ExpenseForm } from "@/components/dashboard/expenses/ExpenseForm";
 
+export const metadata = {
+  title: "Expenses - Consumption",
+  description: "Start tracking your expenses with ease. Join us to take control of your finances.",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) return redirect("/");

@@ -7,6 +7,12 @@ import { redirect } from "next/navigation";
 import { Footer } from "@/components/dashboard/Footer";
 import { TransactionsClient } from "@/components/dashboard/transactions/TransactionsClient";
 
+export const metadata = {
+  title: "Transactions - Consumption",
+  description: "Start tracking your expenses with ease. Join us to take control of your finances.",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) return redirect("/");
