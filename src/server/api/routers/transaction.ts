@@ -1,5 +1,4 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { type TransactionType } from "@prisma/client";
 import { z } from "zod";
 
 export const transactionRouter = createTRPCRouter({
@@ -21,29 +20,19 @@ export const transactionRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
     });
 
-    let total = 0;
-
-    transactions.forEach((transaction) => {
-      if (transaction.type === "ADD") {
-        total += transaction.amount;
-      } else {
-        total -= transaction.amount;
-      }
-    });
-
-    expense.forEach((expense) => (total -= expense.amount));
-
-    return total;
+    return (
+      transactions.reduce((total, transaction) => total + transaction.amount, 0) -
+      expense.reduce((total, expense) => total + expense.amount, 0)
+    );
   }),
 
   add: protectedProcedure
-    .input(z.object({ name: z.string(), amount: z.number(), type: z.string() }))
+    .input(z.object({ name: z.string(), amount: z.number() }))
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction.create({
         data: {
           name: input.name,
           amount: input.amount,
-          type: input.type as TransactionType,
           createdById: ctx.session.user.id,
         },
       });

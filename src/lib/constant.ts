@@ -24,5 +24,3 @@ export const budgetCategory = [
   "Transportation",
   "Utilities",
 ];
-
-export const transactionType = ["ADD", "REMOVE"];

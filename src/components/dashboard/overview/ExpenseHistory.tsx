@@ -19,14 +19,17 @@ export const ExpenseHistory = async () => {
 
   return expenses.length ? (
     <Table>
-      <TableCaption className="text-primary hover:underline">
-        <Link href="/dashboard/expenses">{`${expenses.length - 10} more results`}</Link>
-      </TableCaption>
+      {expenses.length >= 10 ? (
+        <TableCaption className="text-primary hover:underline">
+          <Link href="/dashboard/expenses">{`${expenses.length - 10} more results`}</Link>
+        </TableCaption>
+      ) : null}
+
       <TableHeader>
         <TableRow>
           <TableHead>Description</TableHead>
-          <TableHead className="hidden md:table-cell">Category</TableHead>
-          <TableHead className="hidden text-right md:table-cell">Date</TableHead>
+          <TableHead>Category</TableHead>
+          <TableHead className="text-right">Date</TableHead>
           <TableHead className="text-right">Amount</TableHead>
         </TableRow>
       </TableHeader>
@@ -34,10 +37,10 @@ export const ExpenseHistory = async () => {
         {expenses.slice(0, 10).map((expense) => (
           <TableRow key={expense.id}>
             <TableCell className="max-w-prose">{expense.description}</TableCell>
-            <TableCell className="hidden capitalize md:table-cell">
+            <TableCell className="capitalize">
               <Badge>{expense.category}</Badge>
             </TableCell>
-            <TableCell className="hidden text-right md:table-cell">
+            <TableCell className="text-right">
               {expense.date.toLocaleDateString()}
             </TableCell>
             <TableCell className="text-right">{formatCurrency(expense.amount)}</TableCell>
@@ -47,7 +50,7 @@ export const ExpenseHistory = async () => {
     </Table>
   ) : (
     <div className="flex flex-col gap-5">
-      <h1 className="text-md text-center font-medium text-muted-foreground mt-10">
+      <h1 className="text-md mt-10 text-center font-medium text-muted-foreground">
         You don't have any expense records
       </h1>
       <Image

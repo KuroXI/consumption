@@ -33,6 +33,21 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
     cell: ({ row }) => <p className="max-w-prose">{row.getValue("description")}</p>,
   },
   {
+    accessorKey: "amount",
+    header: ({ column }) => (
+      <div className="flex justify-center">
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Amount
+          <ArrowDownUp className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
+    ),
+    cell: ({ row }) => <p className="text-center">{formatCurrency(row.getValue("amount"))}</p>,
+  },
+  {
     accessorKey: "category",
     header: ({ column }) => <CategoryHeader title="Category" column={column} />,
     cell: ({ row }) => <CategoryCell row={row} />,
@@ -53,21 +68,6 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
     cell: ({ row }) => (
       <p className="text-right">{new Date(row.getValue("date")).toLocaleDateString()}</p>
     ),
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => (
-      <div className="flex justify-end">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Amount
-          <ArrowDownUp className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
-    cell: ({ row }) => <p className="text-right">{formatCurrency(row.getValue("amount"))}</p>,
   },
   {
     id: "actions",
