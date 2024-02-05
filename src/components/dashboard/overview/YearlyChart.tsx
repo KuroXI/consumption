@@ -16,7 +16,7 @@ export const YearlyChart = () => {
   });
 
   return chartData.data ? (
-    <ResponsiveContainer width="100%" height="100%" aspect={1.8}>
+    <ResponsiveContainer width="100%" height="100%" aspect={2.3}>
       <LineChart
         data={chartData.data}
         margin={{

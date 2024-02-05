@@ -9,6 +9,7 @@ import { api } from "@/trpc/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   name: z.string().max(45).min(3),
@@ -20,6 +21,7 @@ type TransactionFormProps = {
 };
 
 export const TransactionForm = ({ className }: TransactionFormProps) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -29,7 +31,7 @@ export const TransactionForm = ({ className }: TransactionFormProps) => {
     transactionMutation.mutate(data, {
       onSuccess: () => toast.success("Added transaction successfully"),
       onError: (error) => toast.error(error.message),
-      onSettled: () => window.location.reload(),
+      onSettled: () => router.refresh(),
     });
   };
 
