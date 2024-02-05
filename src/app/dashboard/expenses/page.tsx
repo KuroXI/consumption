@@ -1,6 +1,5 @@
 import { NavigationBar } from "@/components/dashboard/NavigationBar";
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
-import { api } from "@/trpc/server";
 import { ExpenseClient } from "@/components/dashboard/expenses/ExpenseClient";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
@@ -19,8 +18,6 @@ export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) return redirect("/");
 
-  const expenses = await api.expenses.all.query();
-
   return (
     <>
       <NavigationBar />
@@ -33,7 +30,7 @@ export default async function Page() {
             <ExpenseForm className="h-fit rounded-md p-0 md:p-5" />
             <Separator className="mt-10" />
           </div>
-          <ExpenseClient className="col-span-1 lg:col-span-5" expenses={expenses} />
+          <ExpenseClient className="col-span-1 lg:col-span-5" />
         </div>
       </MaxWidthWrapper>
       <Footer />

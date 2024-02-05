@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   description: z.string().max(45).min(3),
@@ -34,6 +35,7 @@ type ExpenseFormProps = {
 };
 
 export const ExpenseForm = ({ className }: ExpenseFormProps) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -43,7 +45,7 @@ export const ExpenseForm = ({ className }: ExpenseFormProps) => {
     expenseMutation.mutate(data, {
       onSuccess: () => toast.success("Added expense successfully"),
       onError: (error) => toast.error(error.message),
-      onSettled: () => window.location.reload(),
+      onSettled: () => router.refresh(),
     });
   };
 
@@ -97,7 +99,7 @@ export const ExpenseForm = ({ className }: ExpenseFormProps) => {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="date"
           render={({ field }) => (
@@ -128,7 +130,7 @@ export const ExpenseForm = ({ className }: ExpenseFormProps) => {
               </Popover>
             </FormItem>
           )}
-        />
+        /> */}
         <Button className="w-full" type="submit">
           Submit
         </Button>

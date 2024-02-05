@@ -10,23 +10,21 @@ export const expensesRouter = createTRPCRouter({
         id: true,
         amount: true,
         category: true,
-        date: true,
+        createdAt: true,
         description: true,
       },
       where: { createdBy: { id: ctx.session.user.id } },
-      orderBy: { date: "desc" },
+      orderBy: { createdAt: "desc" },
     });
   }),
 
-  daily: protectedProcedure.query(async ({ ctx }) => {
-    const timezone = moment.tz.guess();
-
+  daily: protectedProcedure.input(z.object({ date: z.date() })).query(async ({ ctx, input }) => {
     const expenses = await ctx.db.expenses.findMany({
       where: {
         createdBy: { id: ctx.session.user.id },
-        date: {
-          gte: moment().utc().startOf("day").tz(timezone).toDate(),
-          lte: moment().utc().endOf("day").tz(timezone).toDate(),
+        createdAt: {
+          gte: moment(input.date).startOf("day").toDate(),
+          lte: moment(input.date).endOf("day").toDate(),
         },
       },
     });
@@ -34,13 +32,13 @@ export const expensesRouter = createTRPCRouter({
     return expenses.reduce((sum, { amount }) => sum + amount, 0);
   }),
 
-  monthly: protectedProcedure.query(async ({ ctx }) => {
+  monthly: protectedProcedure.input(z.object({ date: z.date() })).query(async ({ ctx, input }) => {
     const expenses = await ctx.db.expenses.findMany({
       where: {
         createdBy: { id: ctx.session.user.id },
-        date: {
-          gte: moment().utc().startOf("month").toDate(),
-          lte: moment().utc().endOf("month").toDate(),
+        createdAt: {
+          gte: moment(input.date).startOf("month").toDate(),
+          lte: moment(input.date).endOf("month").toDate(),
         },
       },
     });
@@ -54,9 +52,9 @@ export const expensesRouter = createTRPCRouter({
       const currentYear = await ctx.db.expenses.findMany({
         where: {
           createdBy: { id: ctx.session.user.id },
-          date: {
-            gte: moment().utc().startOf("year").toDate(),
-            lte: moment().utc().endOf("year").toDate(),
+          createdAt: {
+            gte: moment(input.year, "YYYY").startOf("year").toDate(),
+            lte: moment(input.year, "YYYY").endOf("year").toDate(),
           },
         },
       });
@@ -64,7 +62,7 @@ export const expensesRouter = createTRPCRouter({
       const lastYear = await ctx.db.expenses.findMany({
         where: {
           createdBy: { id: ctx.session.user.id },
-          date: {
+          createdAt: {
             gte: moment(input.year - 1, "YYYY").startOf("year").toDate(),
             lte: moment(input.year - 1, "YYYY").endOf("year").toDate(),
           },
@@ -79,12 +77,12 @@ export const expensesRouter = createTRPCRouter({
 
       months.forEach((month) => {
         const currentYearMonthlyExpenses = currentYear.filter((expense) => {
-          const expenseMonth = new Date(expense.date).getMonth();
+          const expenseMonth = new Date(expense.createdAt).getMonth();
           return months[expenseMonth] === month;
         });
 
         const lastYearMonthlyExpenses = lastYear.filter((expense) => {
-          const expenseMonth = new Date(expense.date).getMonth();
+          const expenseMonth = new Date(expense.createdAt).getMonth();
           return months[expenseMonth] === month;
         });
 
@@ -103,7 +101,6 @@ export const expensesRouter = createTRPCRouter({
       z.object({
         amount: z.number(),
         category: z.string(),
-        date: z.date(),
         description: z.string(),
       }),
     )
@@ -113,7 +110,6 @@ export const expensesRouter = createTRPCRouter({
           description: input.description,
           amount: input.amount,
           category: input.category,
-          date: moment(input.date).utc().toDate(),
           createdById: ctx.session.user.id,
         },
       });

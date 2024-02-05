@@ -3,8 +3,8 @@ import { api } from "@/trpc/server";
 
 export const InfoCard = async () => {
   const balance = await api.transaction.balance.query();
-  const daily = await api.expenses.daily.query();
-  const monthly = await api.expenses.monthly.query();
+  const daily = await api.expenses.daily.query({ date: new Date() });
+  const monthly = await api.expenses.monthly.query({ date: new Date() });
 
   return (
     <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">

@@ -41,7 +41,7 @@ export const ExpenseHistory = async () => {
               <Badge>{expense.category}</Badge>
             </TableCell>
             <TableCell className="text-right">
-              {expense.date.toLocaleDateString()}
+              {expense.createdAt.toLocaleDateString()}
             </TableCell>
             <TableCell className="text-right">{formatCurrency(expense.amount)}</TableCell>
           </TableRow>

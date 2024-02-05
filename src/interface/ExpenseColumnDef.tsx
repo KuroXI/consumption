@@ -19,7 +19,7 @@ export type Expense = {
   description: string;
   category: string;
   amount: number;
-  date: Date;
+  createdAt: Date;
 };
 
 export const ExpenseColumnDef: ColumnDef<Expense>[] = [
@@ -44,7 +44,7 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
     cell: ({ row }) => <CategoryCell row={row} />,
   },
   {
-    accessorKey: "date",
+    accessorKey: "createdAt",
     header: ({ column }) => (
       <div className="flex justify-end">
         <Button
@@ -57,7 +57,7 @@ export const ExpenseColumnDef: ColumnDef<Expense>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <p className="text-right">{row.original.date.toLocaleDateString()}</p>
+      <p className="text-right">{row.original.createdAt.toLocaleDateString()}</p>
     ),
   },
   {
