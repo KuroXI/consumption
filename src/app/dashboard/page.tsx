@@ -9,6 +9,7 @@ import { authOptions } from "@/server/auth";
 import { redirect } from "next/navigation";
 import { Footer } from "@/components/dashboard/Footer";
 import { TransactionForm } from "@/components/dashboard/transactions/TransactionsForm";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = {
   title: "Overview - Consumption",
@@ -27,21 +28,41 @@ export default async function Page() {
         <h1 className="px-5 pb-5 text-lg font-semibold">Overview</h1>
         <InfoCard />
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-          <div className="col-span-1 rounded-md border p-3 lg:col-span-2">
-            <h1 className="text-md py-2 font-semibold">Yearly Expenses</h1>
-            <YearlyChart />
+          <div className="col-span-1 flex flex-col gap-5">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Add Expense</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ExpenseForm />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Add Transaction</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TransactionForm />
+              </CardContent>
+            </Card>
           </div>
-          <div className="col-span-1 rounded-md border p-3">
-            <h1 className="text-md py-2 font-semibold">Add Expense</h1>
-            <ExpenseForm />
-          </div>
-          <div className="col-span-1">
-            <h1 className="text-md py-2 font-semibold">Add Transaction</h1>
-            <TransactionForm />
-          </div>
-          <div className="col-span-1 lg:col-span-2">
-            <h1 className="text-md py-2 font-semibold">Expenses History</h1>
-            <ExpenseHistory />
+          <div className="col-span-1 lg:col-span-2 flex flex-col gap-5">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Yearly Chart</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <YearlyChart />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Recent Expenses</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ExpenseHistory />
+              </CardContent>
+            </Card>
           </div>
         </div>
       </MaxWidthWrapper>

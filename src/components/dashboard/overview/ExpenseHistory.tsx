@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import NoExpensesImage from "@/assets/no-expenses.png";
@@ -12,14 +14,14 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
-import { api } from "@/trpc/server";
+import { api } from "@/trpc/react";
 
-export const ExpenseHistory = async () => {
-  const expenses = await api.expenses.all.query();
+export const ExpenseHistory = () => {
+  const { data: expenses } = api.expenses.all.useQuery();
 
-  return expenses.length ? (
+  return expenses?.length ? (
     <Table>
-      {expenses.length >= 10 ? (
+      {expenses.length > 10 ? (
         <TableCaption className="text-primary hover:underline">
           <Link href="/dashboard/expenses">{`${expenses.length - 10} more results`}</Link>
         </TableCaption>
