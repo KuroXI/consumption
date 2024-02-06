@@ -18,13 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   description: z.string().max(45).min(3),
   amount: z.coerce.number().min(0.01),
   category: z.string(),
-  date: z.date(),
 });
 
 type ExpenseFormProps = {
@@ -32,7 +30,6 @@ type ExpenseFormProps = {
 };
 
 export const ExpenseForm = ({ className }: ExpenseFormProps) => {
-  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -42,7 +39,7 @@ export const ExpenseForm = ({ className }: ExpenseFormProps) => {
     expenseMutation.mutate(data, {
       onSuccess: () => toast.success("Added expense successfully"),
       onError: (error) => toast.error(error.message),
-      onSettled: () => router.refresh(),
+      onSettled: () => window.location.reload(),
     });
   };
 

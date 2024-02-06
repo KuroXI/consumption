@@ -19,7 +19,7 @@ export const expensesRouter = createTRPCRouter({
   }),
 
   daily: protectedProcedure.input(z.object({ date: z.date() })).query(async ({ ctx, input }) => {
-    const expenses = await ctx.db.expenses.findMany({
+    const currentDay = await ctx.db.expenses.findMany({
       where: {
         createdBy: { id: ctx.session.user.id },
         createdAt: {
@@ -28,12 +28,25 @@ export const expensesRouter = createTRPCRouter({
         },
       },
     });
+    
+    const lastDay = await ctx.db.expenses.findMany({
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: {
+          gte: moment(input.date).subtract(1, "days").startOf("day").toDate(),
+          lte: moment(input.date).subtract(1, "days").endOf("day").toDate(),
+        },
+      },
+    });
 
-    return expenses.reduce((sum, { amount }) => sum + amount, 0);
+    return {
+      current: currentDay.reduce((sum, { amount }) => sum + amount, 0),
+      last: lastDay.reduce((sum, { amount }) => sum + amount, 0),
+    }
   }),
 
   monthly: protectedProcedure.input(z.object({ date: z.date() })).query(async ({ ctx, input }) => {
-    const expenses = await ctx.db.expenses.findMany({
+    const currentMonth = await ctx.db.expenses.findMany({
       where: {
         createdBy: { id: ctx.session.user.id },
         createdAt: {
@@ -43,7 +56,47 @@ export const expensesRouter = createTRPCRouter({
       },
     });
 
-    return expenses.reduce((sum, { amount }) => sum + amount, 0);
+    const lastMonth = await ctx.db.expenses.findMany({
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: {
+          gte: moment(input.date).subtract(1, "months").startOf("month").toDate(),
+          lte: moment(input.date).subtract(1, "months").endOf("month").toDate(),
+        },
+      },
+    });
+
+    return {
+      current: currentMonth.reduce((sum, { amount }) => sum + amount, 0),
+      last: lastMonth.reduce((sum, { amount }) => sum + amount, 0),
+    }
+  }),
+
+  yearly: protectedProcedure.input(z.object({ date: z.date() })).query(async ({ ctx, input }) => {
+    const currentYear = await ctx.db.expenses.findMany({
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: {
+          gte: moment(input.date.getFullYear(), "YYYY").startOf("year").toDate(),
+          lte: moment(input.date.getFullYear(), "YYYY").endOf("year").toDate(),
+        },
+      },
+    });
+
+    const lastYear = await ctx.db.expenses.findMany({
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: {
+          gte: moment(input.date.getFullYear(), "YYYY").subtract(1, "years").startOf("year").toDate(),
+          lte: moment(input.date.getFullYear(), "YYYY").subtract(1, "years").endOf("year").toDate(),
+        },
+      },
+    });
+
+    return {
+      current: currentYear.reduce((sum, { amount }) => sum + amount, 0),
+      last: lastYear.reduce((sum, { amount }) => sum + amount, 0),
+    }
   }),
 
   yearlyChart: protectedProcedure
@@ -63,8 +116,8 @@ export const expensesRouter = createTRPCRouter({
         where: {
           createdBy: { id: ctx.session.user.id },
           createdAt: {
-            gte: moment(input.year - 1, "YYYY").startOf("year").toDate(),
-            lte: moment(input.year - 1, "YYYY").endOf("year").toDate(),
+            gte: moment(input.year, "YYYY").subtract(1, "years").startOf("year").toDate(),
+            lte: moment(input.year, "YYYY").subtract(1, "years").endOf("year").toDate(),
           },
         },
       });

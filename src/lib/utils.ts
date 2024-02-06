@@ -18,3 +18,13 @@ export function renderBreakPoint(id: string): string {
     return "hidden md:table-cell";
   } else return "";
 }
+
+export function formatCardInfo({ current, last } : {
+  current: number;
+  last: number;
+}): string {
+  if (last === 0) return "100% more from";
+
+  const percentage = ((current - last) / last) * 100;
+  return `${Math.abs(percentage).toFixed(2)}% ${percentage > 0 ? "more" : "less"} from`;
+}
