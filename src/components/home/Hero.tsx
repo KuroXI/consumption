@@ -5,14 +5,15 @@ import { signIn, useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import { GoogleIcon } from "../ui/icons";
 import { Github } from "lucide-react";
-import { DashboardSkeleton } from "./DashboardSkeleton";
-import { MaxWidthWrapper } from "../ui/max-width-wrapper";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export const Hero = () => {
+  const { theme } = useTheme();
   const { data: session } = useSession();
 
   return (
-    <MaxWidthWrapper className="flex lg:flex-row flex-col gap-10 lg:max-w-screen-2xl max-w-screen-sm h-screen items-center justify-between py-10">
+    <div className="flex lg:flex-row flex-col gap-10 w-screen h-screen items-center justify-center py-10 lg:px-24 px-5">
       <div className="flex flex-col gap-10 lg:text-left text-center lg:pb-0 pb-10">
         <div className="flex flex-col gap-3">
           <h1 className="md:text-5xl text-3xl font-bold text-foreground">Welcome to Consumption</h1>
@@ -40,14 +41,18 @@ export const Hero = () => {
               </Button>
             </Link>
           </div>
-          <p className="md:text-sm text-xs text-muted-foreground">
-            By joining, you agree to our{" "}
-            <span className="text-primary underline">Terms & Conditions</span>.
-          </p>
         </div>
       </div>
 
-      <DashboardSkeleton />
-    </MaxWidthWrapper>
+      <Image
+        src={theme !== "dark" ? "/landing-dark.svg" : "/landing-light.svg"}
+        alt="Landing Image"
+        width={0}
+        height={0}
+        sizes="100vw"
+        className="md:w-2/4 w-full h-auto"
+        draggable={false}
+      />
+    </div>
   );
 };

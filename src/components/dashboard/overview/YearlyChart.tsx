@@ -1,5 +1,7 @@
 "use client";
 
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { SpinnerIcon } from "@/components/ui/icons";
 import { api } from "@/trpc/react";
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
@@ -16,7 +18,7 @@ export const YearlyChart = () => {
   });
 
   return chartData.data ? (
-    <ResponsiveContainer width="100%" height="100%" aspect={2.3}>
+    <ResponsiveContainer width="100%" height="100%" aspect={16 / 9}>
       <LineChart
         data={chartData.data}
         margin={{
@@ -54,7 +56,11 @@ export const YearlyChart = () => {
         <Tooltip content={<TooltipContent active={true} payload={chartData.data} />} />
       </LineChart>
     </ResponsiveContainer>
-  ) : null;
+  ) : (
+    <AspectRatio ratio={16 / 9} className="flex items-center justify-center">
+      <SpinnerIcon className="w-8 h-8 animate-spin" />
+    </AspectRatio>
+  );
 };
 
 const TooltipContent = ({
