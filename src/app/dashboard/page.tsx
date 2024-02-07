@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { Footer } from "@/components/dashboard/Footer";
 import { TransactionForm } from "@/components/dashboard/transactions/TransactionsForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TransactionHistory } from "@/components/dashboard/overview/TransactionHistory";
 
 export const metadata = {
   title: "Overview - Consumption",
@@ -45,6 +46,14 @@ export default async function Page() {
                 <TransactionForm />
               </CardContent>
             </Card>
+            <Card className="hidden lg:block">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Recent Transactions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TransactionHistory />
+              </CardContent>
+            </Card>
           </div>
           <div className="col-span-1 lg:col-span-2 flex flex-col gap-5">
             <Card>
@@ -61,6 +70,14 @@ export default async function Page() {
               </CardHeader>
               <CardContent>
                 <ExpenseHistory />
+              </CardContent>
+            </Card>
+            <Card className="block lg:hidden">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium">Recent Transactions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TransactionHistory />
               </CardContent>
             </Card>
           </div>
